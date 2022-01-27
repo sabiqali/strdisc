@@ -133,23 +133,24 @@ for line in indel_fh:
 			all_substrings = find_all_substrings(test_seq)
 			print(all_substrings)
 
-			for x, y in itertools.combinations(all_substrings, 2):
-				counter = 1
-				if len(x) == len(y):
-					ed = calc_ed(x,y)
-					if ed <= math.ceil(len(x)/3):
-						counter = counter + 1
-					if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
-						if x in repeat_of_interest:
-							if repeat_of_interest[x] < counter:
-								repeat_of_interest.update({x: counter})
-						else:
-							repeat_of_interest[x] = counter
-						max_repeat_count = counter  #we store the global maxima
-						max_repeat_substring = x
-						#print(max_repeat_substring, max_repeat_count)
-				else:
-					continue
+			for i in range(len(all_substrings)):
+				counter = 0
+				for j in range(len(all_substrings)):
+					if len(all_substrings[i]) == len(all_substrings[j]):
+						ed = calc_ed(all_substrings[i],all_substrings[j])
+						if ed <= math.ceil(len(all_substrings[i])/3):
+							counter = counter + 1
+						if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+							if all_substrings[i] in repeat_of_interest:
+								if repeat_of_interest[all_substrings[i]] < counter:
+									repeat_of_interest.update({all_substrings[i]: counter})
+							else:
+								repeat_of_interest[all_substrings[i]] = counter
+							max_repeat_count = counter  #we store the global maxima
+							max_repeat_substring = all_substrings[i]
+							#print(max_repeat_substring, max_repeat_count)
+					else:
+						continue
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
 			#for x in range(len(all_substrings)):
 				#print("test")
