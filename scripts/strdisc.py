@@ -134,7 +134,7 @@ for line in indel_fh:
 				diffs = [j-i for i, j in zip(indices[:-1], indices[1:])]  #generate a list of differences between the elements of the indeces list. 
 
 				for diff in diffs:  #if the difference between the elements of the indeces list is equal to the length of the substring, it is a repeat, we count it.
-					if diff == len(all_substrings[x]):
+					if abs(diff-len(all_substrings[x])) <= (3*len(all_substrings[x])):
 						counter = counter + 1
 				if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 					if all_substrings[x] in repeat_of_interest:
