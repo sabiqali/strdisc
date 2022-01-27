@@ -141,6 +141,7 @@ for line in indel_fh:
 						repeat_of_interest[all_substrings[x]] = counter
 					max_repeat_count = counter  #we store the global maxima
 					max_repeat_substring = all_substrings[x]
+					print(max_repeat_substring, max_repeat_count)
 			break
 
 	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
