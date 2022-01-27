@@ -148,7 +148,7 @@ for line in indel_fh:
 								repeat_of_interest[all_substrings[i]] = counter
 							max_repeat_count = counter  #we store the global maxima
 							max_repeat_substring = all_substrings[i]
-							#print(max_repeat_substring, max_repeat_count)
+							print(max_repeat_substring, max_repeat_count)
 					else:
 						continue
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
