@@ -104,6 +104,9 @@ for line in indel_fh:
 		region_start = int(start) - 500
 		region_end = int(end) + 500
 
+		print(region_start)
+		print(region_end)
+
 		#get the alignment of the reads and get only those reads that match the called indel region denoted by region_start and region_end
 		for alignment in bamfile.fetch(chromosome,region_start,region_end):
 			pair_out = alignment.get_aligned_pairs(True)
