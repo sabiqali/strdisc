@@ -173,7 +173,7 @@ for line in indel_fh:
 			#		max_repeat_substring = all_substrings[x]
 					#print(max_repeat_substring, max_repeat_count)
 			break
-
+		print(repeat_of_interest)
 	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
 		if(repeat_of_interest[key] == counter):
 			print(key, repeat_of_interest[key])
