@@ -6,7 +6,7 @@ import parasail
 def find_all_substrings(region):
 	# Extract K length substrings
 	# Using itertools.combinations()
-	res = [region[x:y] for x, y in combinations(range(len(region) + 1), r = 2) if len(region[x:y]) >= K ]
+	res = [region[x:y] for x, y in combinations(range(len(region) + 1), r = 2) if len(region[x:y]) >= K and len(region[x:y]) <= upper_length ]
 	return res
 
 def KMPSearch(pat, txt):
@@ -68,7 +68,8 @@ def computeLPSArray(pat, M, lps):
 				i += 1
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--length', help='the minimum length of STRs to check', required=False, default=3)
+parser.add_argument('--lower_length', help='the minimum length of STRs to check', required=False, default=3)
+parser.add_argument('--upper_length', help='the minimum length of STRs to check', required=False, default=6)
 parser.add_argument('--indel_file', help='the file generated from the SV detection pipeline', required=False)
 parser.add_argument('--count', help='the minimum number of repeets to consider the region viable', required=False, default=3)
 parser.add_argument('--bed', help='the output bed file for the coordinates of the potential STRs', required=False)
@@ -76,7 +77,8 @@ parser.add_argument('--bam', help='the bam file', required=False)
 
 args = parser.parse_args()
 
-length_repeat = args.length
+lower_length = args.lower_length
+upper_length = args.upper_length
 indel_file = args.indel_file
 no_of_repeats = args.count
 output_file = args.bed
@@ -85,7 +87,7 @@ in_bam = args.bam
 bamfile = pysam.AlignmentFile(in_bam)
 
 # initializing K 
-K = int(length_repeat)
+K = int(lower_length)
 
 test_text = "bacbacbacabcabcabcabcabcabc"
 
