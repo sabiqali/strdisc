@@ -71,8 +71,7 @@ def computeLPSArray(pat, M, lps):
 
 def calc_ed(pat1, pat2):
 	result = edlib.align(pat1, pat2, mode = "HW", task = "path")
-	print(result)
-	return result.editDistance
+	return result['editDistance']
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--lower_length', help='the minimum length of STRs to check', required=False, default=3)
@@ -135,6 +134,7 @@ for line in indel_fh:
 			print(all_substrings)
 
 			for x, y in itertools.combinations(all_substrings, 2):
+				counter = 1
 				if len(x) == len(y):
 					ed = calc_ed(x,y)
 					if ed <= math.ceil(len(x)/3):
