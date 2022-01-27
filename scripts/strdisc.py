@@ -113,12 +113,12 @@ for line in indel_fh:
 					region_read_start = tmp_pairs[0]
 				if abs(tmp_pairs[1] - region_end) <= 10:
 					region_read_end = tmp_pairs[0]
-			
-			print(region_read_start)
-			print(region_read_end)
 
 			#get the sequence from the alignment and then get the subsequence
-			test_seq = alignment.query_sequence[region_read_start:region_read_end]
+			if region_read_start < region_read_end:
+				test_seq = alignment.query_sequence[region_read_start:region_read_end]
+			else:
+				continue
 
 			#get all the substrings of the subsequence
 			print(test_seq)
