@@ -121,8 +121,8 @@ for line in indel_fh:
 				continue
 
 			#get all the substrings of the subsequence
-			print(test_seq)
-			all_substrings = find_all_substrings(test_text)
+			#print(test_seq)
+			all_substrings = find_all_substrings(test_seq)
 
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
 			for x in range(len(all_substrings)):
