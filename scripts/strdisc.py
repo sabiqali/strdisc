@@ -110,9 +110,9 @@ for line in indel_fh:
 			#get the coordinates on the read that coincide with the coordinates on the reference
 			for tmp_pairs in  pair_out:
 				if abs(tmp_pairs[1] - region_start) <= 10:
-					region_read_start = tmp_pairs[1]
+					region_read_start = tmp_pairs[0]
 				if abs(tmp_pairs[1] - region_end) <= 10:
-					region_read_end = tmp_pairs[1]
+					region_read_end = tmp_pairs[0]
 			
 			print(region_read_start)
 			print(region_read_end)
