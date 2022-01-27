@@ -128,7 +128,7 @@ for line in indel_fh:
 			print(all_substrings)
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
 			for x in range(len(all_substrings)):
-				print("test")
+				#print("test")
 				counter = 1
 				indices = KMPSearch(all_substrings[x],test_text)  #generate a list of indeces where the substring has been found
 				diffs = [j-i for i, j in zip(indices[:-1], indices[1:])]  #generate a list of differences between the elements of the indeces list. 
@@ -136,7 +136,7 @@ for line in indel_fh:
 				for diff in diffs:  #if the difference between the elements of the indeces list is equal to the length of the substring, it is a repeat, we count it.
 					if diff == len(all_substrings[x]):
 						counter = counter + 1
-				if counter >= max_repeat_count and counter >= int(no_of_repeats):  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+				if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 					if all_substrings[x] in repeat_of_interest:
 						if repeat_of_interest[all_substrings[x]] < counter:
 							repeat_of_interest.update({all_substrings[x]: counter})
