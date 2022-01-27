@@ -85,7 +85,7 @@ in_bam = args.bam
 bamfile = pysam.AlignmentFile(in_bam)
 
 # initializing K 
-K = length_repeat
+K = int(length_repeat)
 
 test_text = "bacbacbacabcabcabcabcabcabc"
 
@@ -100,9 +100,9 @@ for line in indel_fh:
 	max_repeat_substring = ""
 	max_repeat_count = 0
 
-	if support >= 2: #if 2 out of the 3 callers call the insertion 
-		region_start = start - 500
-		region_end = end + 500
+	if int(support) >= 2: #if 2 out of the 3 callers call the insertion 
+		region_start = int(start) - 500
+		region_end = int(end) + 500
 
 		#get the alignment of the reads and get only those reads that match the called indel region denoted by region_start and region_end
 		for alignment in bamfile.fetch(chromosome,region_start,region_end):
@@ -129,7 +129,7 @@ for line in indel_fh:
 				for diff in diffs:  #if the difference between the elements of the indeces list is equal to the length of the substring, it is a repeat, we count it.
 					if diff == len(all_substrings[x]):
 						counter = counter + 1
-				if counter >= max_repeat_count and counter >= no_of_repeats:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+				if counter >= max_repeat_count and counter >= int(no_of_repeats):  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 					if all_substrings[x] in repeat_of_interest:
 						if repeat_of_interest[all_substrings[x]] < counter:
 							repeat_of_interest.update({all_substrings[x]: counter})
