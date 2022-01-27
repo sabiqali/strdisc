@@ -123,9 +123,10 @@ for line in indel_fh:
 			#get all the substrings of the subsequence
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
-
+			print(all_substrings)
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
 			for x in range(len(all_substrings)):
+				print("test")
 				counter = 1
 				indices = KMPSearch(all_substrings[x],test_text)  #generate a list of indeces where the substring has been found
 				diffs = [j-i for i, j in zip(indices[:-1], indices[1:])]  #generate a list of differences between the elements of the indeces list. 
