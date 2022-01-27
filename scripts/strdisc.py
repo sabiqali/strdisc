@@ -71,6 +71,7 @@ def computeLPSArray(pat, M, lps):
 
 def calc_ed(pat1, pat2):
 	result = edlib.align(pat1, pat2, mode = "HW", task = "path")
+	print(result)
 	return result.editDistance
 
 parser = argparse.ArgumentParser()
@@ -134,18 +135,18 @@ for line in indel_fh:
 			print(all_substrings)
 
 			for x, y in itertools.combinations(all_substrings, 2):
-				if len(all_substrings[x]) == len(all_substrings[y]):
+				if len(x) == len(y):
 					ed = calc_ed(x,y)
-					if ed <= math.ceil(len(all_substrings[x])/3):
+					if ed <= math.ceil(len(x)/3):
 						counter = counter + 1
 					if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
-						if all_substrings[x] in repeat_of_interest:
-							if repeat_of_interest[all_substrings[x]] < counter:
-								repeat_of_interest.update({all_substrings[x]: counter})
+						if x in repeat_of_interest:
+							if repeat_of_interest[x] < counter:
+								repeat_of_interest.update({x: counter})
 						else:
-							repeat_of_interest[all_substrings[x]] = counter
+							repeat_of_interest[x] = counter
 						max_repeat_count = counter  #we store the global maxima
-						max_repeat_substring = all_substrings[x]
+						max_repeat_substring = x
 						#print(max_repeat_substring, max_repeat_count)
 				else:
 					continue
