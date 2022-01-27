@@ -133,9 +133,11 @@ for line in indel_fh:
 				indices = KMPSearch(all_substrings[x],test_text)  #generate a list of indeces where the substring has been found
 				diffs = [j-i for i, j in zip(indices[:-1], indices[1:])]  #generate a list of differences between the elements of the indeces list. 
 
-				for diff in diffs:  #if the difference between the elements of the indeces list is equal to the length of the substring, it is a repeat, we count it.
-					if abs(diff-len(all_substrings[x])) <= (3*len(all_substrings[x])):
-						counter = counter + 1
+				#for diff in diffs:  #if the difference between the elements of the indeces list is equal to the length of the substring, it is a repeat, we count it.
+				#	if abs(diff-len(all_substrings[x])) <= (3*len(all_substrings[x])):
+				#		counter = counter + 1
+				if len(diffs) > 3:
+					counter = counter + 1
 				if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 					if all_substrings[x] in repeat_of_interest:
 						if repeat_of_interest[all_substrings[x]] < counter:
@@ -144,7 +146,7 @@ for line in indel_fh:
 						repeat_of_interest[all_substrings[x]] = counter
 					max_repeat_count = counter  #we store the global maxima
 					max_repeat_substring = all_substrings[x]
-					print(max_repeat_substring, max_repeat_count)
+					#print(max_repeat_substring, max_repeat_count)
 			break
 
 	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
