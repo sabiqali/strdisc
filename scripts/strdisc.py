@@ -1,7 +1,9 @@
 import argparse
 from itertools import combinations, count
 import pysam
-import parasail
+import edlib
+import math
+import itertools
 
 def find_all_substrings(region):
 	# Extract K length substrings
@@ -67,6 +69,10 @@ def computeLPSArray(pat, M, lps):
 				lps[i] = 0
 				i += 1
 
+def calc_ed(pat1, pat2):
+	result = edlib.align(pat1, pat2, mode = "HW", task = "path")
+	return result.editDistance
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--lower_length', help='the minimum length of STRs to check', required=False, default=3)
 parser.add_argument('--upper_length', help='the minimum length of STRs to check', required=False, default=6)
@@ -126,26 +132,43 @@ for line in indel_fh:
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
 			print(all_substrings)
+
+			for x, y in itertools.combinations(all_substrings, 2):
+				if len(all_substrings[x]) == len(all_substrings[y]):
+					ed = calc_ed(x,y)
+					if ed <= math.ceil(len(all_substrings[x])/3):
+						counter = counter + 1
+					if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+						if all_substrings[x] in repeat_of_interest:
+							if repeat_of_interest[all_substrings[x]] < counter:
+								repeat_of_interest.update({all_substrings[x]: counter})
+						else:
+							repeat_of_interest[all_substrings[x]] = counter
+						max_repeat_count = counter  #we store the global maxima
+						max_repeat_substring = all_substrings[x]
+						#print(max_repeat_substring, max_repeat_count)
+				else:
+					continue
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
-			for x in range(len(all_substrings)):
+			#for x in range(len(all_substrings)):
 				#print("test")
-				counter = 1
-				indices = KMPSearch(all_substrings[x],test_text)  #generate a list of indeces where the substring has been found
-				diffs = [j-i for i, j in zip(indices[:-1], indices[1:])]  #generate a list of differences between the elements of the indeces list. 
+			#	counter = 1
+			#	indices = KMPSearch(all_substrings[x],test_text)  #generate a list of indeces where the substring has been found
+			#	diffs = [j-i for i, j in zip(indices[:-1], indices[1:])]  #generate a list of differences between the elements of the indeces list. 
 
 				#for diff in diffs:  #if the difference between the elements of the indeces list is equal to the length of the substring, it is a repeat, we count it.
 				#	if abs(diff-len(all_substrings[x])) <= (3*len(all_substrings[x])):
 				#		counter = counter + 1
-				if len(diffs) > 3:
-					counter = counter + 1
-				if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
-					if all_substrings[x] in repeat_of_interest:
-						if repeat_of_interest[all_substrings[x]] < counter:
-							repeat_of_interest.update({all_substrings[x]: counter})
-					else:
-						repeat_of_interest[all_substrings[x]] = counter
-					max_repeat_count = counter  #we store the global maxima
-					max_repeat_substring = all_substrings[x]
+			#	if len(diffs) > 3:
+			#		counter = counter + 1
+			#	if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+			#		if all_substrings[x] in repeat_of_interest:
+			#			if repeat_of_interest[all_substrings[x]] < counter:
+			#				repeat_of_interest.update({all_substrings[x]: counter})
+			#		else:
+			#			repeat_of_interest[all_substrings[x]] = counter
+			#		max_repeat_count = counter  #we store the global maxima
+			#		max_repeat_substring = all_substrings[x]
 					#print(max_repeat_substring, max_repeat_count)
 			break
 
