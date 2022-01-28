@@ -138,7 +138,7 @@ for line in indel_fh:
 				for j in range(len(all_substrings)):
 					if len(all_substrings[i]) == len(all_substrings[j]):
 						ed = calc_ed(all_substrings[i],all_substrings[j])
-						if ed <= math.ceil(len(all_substrings[i])/3):
+						if ed/len(all_substrings[i]) <= 0.25:
 							counter = counter + 1
 						if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 							if all_substrings[i] in repeat_of_interest:
