@@ -115,6 +115,7 @@ for line in indel_fh:
 		#get the alignment of the reads and get only those reads that match the called indel region denoted by region_start and region_end
 		for alignment in bamfile.fetch(chromosome,region_start,region_end):
 			pair_out = alignment.get_aligned_pairs(True)
+			read_count = 1
 			#get the coordinates on the read that coincide with the coordinates on the reference
 			for tmp_pairs in  pair_out:
 				if abs(tmp_pairs[1] - region_start) <= 10:
@@ -131,7 +132,7 @@ for line in indel_fh:
 			#get all the substrings of the subsequence
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
-			print(all_substrings)
+			#print(all_substrings)
 
 			for i in range(len(all_substrings)):
 				counter = 0
@@ -148,7 +149,7 @@ for line in indel_fh:
 								repeat_of_interest[all_substrings[i]] = counter
 							max_repeat_count = counter  #we store the global maxima
 							max_repeat_substring = all_substrings[i]
-							print(max_repeat_substring, max_repeat_count)
+							#print(max_repeat_substring, max_repeat_count)
 					else:
 						continue
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
@@ -172,7 +173,11 @@ for line in indel_fh:
 			#		max_repeat_count = counter  #we store the global maxima
 			#		max_repeat_substring = all_substrings[x]
 					#print(max_repeat_substring, max_repeat_count)
-			break
+			#break
+			print("processed read ", read_count)
+			read_count = read_count + 1
+			print(repeat_of_interest)
+			print(max_repeat_count)
 		print(repeat_of_interest)
 		print(max_repeat_count)
 	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
