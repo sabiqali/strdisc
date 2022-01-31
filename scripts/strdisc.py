@@ -107,6 +107,7 @@ for line in indel_fh:
 	repeat_of_interest = dict()  #variable to hold the highest repeating substring, which could potentially be the repeating unit of the STR.
 	max_repeat_substring = ""
 	max_repeat_count = 0
+	read_count = 1
 
 	if int(support) >= 2: #if 2 out of the 3 callers call the insertion 
 		region_start = int(start) - 500
@@ -115,7 +116,7 @@ for line in indel_fh:
 		#get the alignment of the reads and get only those reads that match the called indel region denoted by region_start and region_end
 		for alignment in bamfile.fetch(chromosome,region_start,region_end):
 			pair_out = alignment.get_aligned_pairs(True)
-			read_count = 1
+	
 			#get the coordinates on the read that coincide with the coordinates on the reference
 			for tmp_pairs in  pair_out:
 				if abs(tmp_pairs[1] - region_start) <= 10:
@@ -178,8 +179,7 @@ for line in indel_fh:
 			read_count = read_count + 1
 			print(repeat_of_interest)
 			print(max_repeat_count)
-		print(repeat_of_interest)
-		print(max_repeat_count)
+
 	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
 		if(repeat_of_interest[key] == max_repeat_count):
 			print(key, repeat_of_interest[key])
