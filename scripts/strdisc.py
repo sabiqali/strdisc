@@ -132,7 +132,7 @@ for line in indel_fh:
 			#get all the substrings of the subsequence
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
-			#print(all_substrings)
+			print("processing read", read_count)
 
 			for i in range(len(all_substrings)):
 				counter = 0
