@@ -138,7 +138,7 @@ for line in indel_fh:
 				for j in range(len(all_substrings)):
 					if len(all_substrings[i]) == len(all_substrings[j]):
 						ed = calc_ed(all_substrings[i],all_substrings[j])
-						if ed/len(all_substrings[i]) <= 0.25:
+						if ed/len(all_substrings[i]) <= 0.10:
 							counter = counter + 1
 						if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 							if all_substrings[i] in repeat_of_interest:
@@ -174,7 +174,7 @@ for line in indel_fh:
 					#print(max_repeat_substring, max_repeat_count)
 			break
 		print(repeat_of_interest)
-		print(counter)
+		print(max_repeat_count)
 	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
-		if(repeat_of_interest[key] == counter):
+		if(repeat_of_interest[key] == max_repeat_count):
 			print(key, repeat_of_interest[key])
