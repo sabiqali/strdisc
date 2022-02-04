@@ -80,10 +80,16 @@ for line in indel_fh:
 			seq_counter = 0
 			for i in range(len(all_substrings)):
 				seq_counter += 1
-				print('>seq{seq_counter}', file=f)
+				print(">seq"+ str(seq_counter), file=f)
 				print(all_substrings[i], file=f)
 
-			os.system("blastn -db " + ref + " -query temporary_reads.fa -word_size 4 -out align.out")
+			shell_out = os.system("blastn -db " + ref + " -query " + os.getcwd() + "/temporary_reads.fa -word_size 4 -out align.out")
+
+			if shell_out == 0:
+				print("blast align successful")
+
+			print("processed read ", read_count)
+			read_count = read_count + 1
 
 		break			
 
