@@ -91,8 +91,8 @@ for line in indel_fh:
 			print("processed read ", read_count)
 			read_count = read_count + 1
 
-		break			
+	break			
 
-	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
-		if(repeat_of_interest[key] == max_repeat_count):
-			print(key, repeat_of_interest[key])
+	#for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
+		#if(repeat_of_interest[key] == max_repeat_count):
+			#print(key, repeat_of_interest[key])
