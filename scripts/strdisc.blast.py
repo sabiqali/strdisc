@@ -71,12 +71,12 @@ for line in indel_fh:
 			else:
 				continue
 			
-			f_ref = open("references/temporary_ref.fa", "w+")
+			f_ref = open(f"references/temporary_ref_{alignment.query_name}.fa", "w+")
 			print(">ref", file=f_ref)
 			print(test_seq, file=f_ref)
 			f_ref.close()
 			
-			shell_out = os.system("cd references && makeblastdb -in temporary_ref.fa -dbtype nucl")
+			shell_out = os.system(f"cd references && makeblastdb -in temporary_ref_{alignment.query_name}.fa -dbtype nucl")
 
 			if shell_out == 0:
 				print("blast db successfully made")
@@ -84,23 +84,23 @@ for line in indel_fh:
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
 			print("processing read", read_count)
-			f = open("reads/temporary_reads.fa", "w+")
+			f = open(f"reads/temporary_reads_{alignment.query_name}.fa", "w+")
 
 			seq_counter = 0
 			for i in range(len(all_substrings)):
 				seq_counter += 1
-				print(">seq"+ str(seq_counter), file=f)
+				print(f">seq{seq_counter}", file=f)
 				print(all_substrings[i], file=f)
 
 			f.close()
 			#print("blastn -db references/temporary_ref.fa -query reads/temporary_reads.fa -word_size 4 -out align.out")
 
-			shell_out = os.system("blastn -db references/temporary_ref.fa -query reads/temporary_reads.fa -word_size 4 -out align.out")
+			shell_out = os.system(f"blastn -db references/temporary_ref_{alignment.query_name}.fa -query reads/temporary_reads_{alignment.query_name}.fa -word_size 4 -out blast_out/align_{alignment.query_name}.out")
 
 			if shell_out == 0:
 				print("blast align successful")
 
-			shell_out = os.system("perl blast2sam.pl align.out > align.sam")
+			shell_out = os.system(f"perl blast2sam.pl blast_out/align_{alignment.query_name}.out > sam_out/align_{alignment.query_name}.sam")
 
 			if shell_out == 0:
 				print("blast out to sam successful")
