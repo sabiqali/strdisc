@@ -70,12 +70,18 @@ for line in indel_fh:
 				test_seq = alignment.query_sequence[region_read_start:region_read_end]
 			else:
 				continue
+			
+			f = open("references/temporary_ref.fa", "w+")
+			shell_out = os.system("cd ref && makeblastdb -in ref.fa -dbtype nucl")
 
+
+			if shell_out == 0:
+				print("blast db successfully made")
 			#get all the substrings of the subsequence
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
 			print("processing read", read_count)
-			f = open("temporary_reads.fa", "w+")
+			f = open("reads/temporary_reads.fa", "w+")
 
 			seq_counter = 0
 			for i in range(len(all_substrings)):
@@ -83,7 +89,7 @@ for line in indel_fh:
 				print(">seq"+ str(seq_counter), file=f)
 				print(all_substrings[i], file=f)
 
-			print("blastn -db " + ref + " -query " + os.getcwd() + "/temporary_reads.fa -word_size 4 -out align.out")
+			#print("blastn -db references/temporary_ref.fa -query reads/temporary_reads.fa -word_size 4 -out align.out")
 
 			shell_out = os.system("blastn -db " + ref + " -query " + os.getcwd() + "/temporary_reads.fa -word_size 4 -out align.out")
 
@@ -92,6 +98,8 @@ for line in indel_fh:
 
 			print("processed read ", read_count)
 			read_count = read_count + 1
+			break
+		break
 
 	break			
 
