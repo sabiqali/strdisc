@@ -100,6 +100,11 @@ for line in indel_fh:
 			if shell_out == 0:
 				print("blast align successful")
 
+			shell_out = os.system("perl blast2sam.pl align.out > align.sam")
+
+			if shell_out == 0:
+				print("blast out to sam successful")
+
 			print("processed read ", read_count)
 			read_count = read_count + 1
 			break
