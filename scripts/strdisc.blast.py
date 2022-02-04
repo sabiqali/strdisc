@@ -83,6 +83,8 @@ for line in indel_fh:
 				print(">seq"+ str(seq_counter), file=f)
 				print(all_substrings[i], file=f)
 
+			print("blastn -db " + ref + " -query " + os.getcwd() + "/temporary_reads.fa -word_size 4 -out align.out")
+
 			shell_out = os.system("blastn -db " + ref + " -query " + os.getcwd() + "/temporary_reads.fa -word_size 4 -out align.out")
 
 			if shell_out == 0:
