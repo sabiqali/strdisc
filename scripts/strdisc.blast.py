@@ -71,8 +71,10 @@ for line in indel_fh:
 			else:
 				continue
 			
-			f = open("references/temporary_ref.fa", "w+")
-			shell_out = os.system("cd ref && makeblastdb -in ref.fa -dbtype nucl")
+			f_ref = open("references/temporary_ref.fa", "w+")
+			print(">ref", file=f_ref)
+			print(test_seq, file=f_ref)
+			shell_out = os.system("cd references && makeblastdb -in temporary_ref.fa -dbtype nucl")
 
 
 			if shell_out == 0:
