@@ -58,6 +58,7 @@ for line in indel_fh:
 		for alignment in bamfile.fetch(chromosome,region_start,region_end):
 			pair_out = alignment.get_aligned_pairs(True)
 	
+			repeat_of_interest_in_read = dict()
 			#get the coordinates on the read that coincide with the coordinates on the reference
 			for tmp_pairs in  pair_out:
 				if abs(tmp_pairs[1] - region_start) <= 10:
@@ -105,12 +106,36 @@ for line in indel_fh:
 			if shell_out == 0:
 				print("blast out to sam successful")
 
+			sam_out_fh = open(f"sam_out/align_{alignment.query_name}.sam")
+
+			sam_file_lines = list()
+			for line in sam_out_fh:
+				sam_file_lines.append(line.rstrip().split()[0:11])
+
+			for sam_file_line in sam_file_lines:
+				if sam_file_line[0] in repeat_of_interest_in_read:
+					tmp = repeat_of_interest_in_read.get(sam_file_line[0]) + 1
+					repeat_of_interest_in_read.update({sam_file_line[0]: tmp})
+				else:
+					repeat_of_interest_in_read[sam_file_line[0]] = 1
+
+			keymax = max(repeat_of_interest_in_read, key= lambda x: repeat_of_interest_in_read[x])
+
+			if keymax in repeat_of_interest:
+				val_orig = repeat_of_interest.get(keymax)
+				val_new = repeat_of_interest_in_read.get(keymax)
+				if val_new > val_orig:
+					repeat_of_interest.update({keymax: val_new})
+			else:
+				val_new = repeat_of_interest_in_read.get(keymax)
+				repeat_of_interest[keymax] = val_new
+
 			print("processed read ", read_count)
 			read_count = read_count + 1
-			break
-		break
 
-	break			
+	max_entry_key = max(repeat_of_interest, key= lambda x: repeat_of_interest[x])
+
+	print(max_entry_key, repeat_of_interest[max_entry_key])			
 
 	#for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
 		#if(repeat_of_interest[key] == max_repeat_count):
