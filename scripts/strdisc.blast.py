@@ -114,7 +114,7 @@ for line in indel_fh:
 
 			for sam_file_line in sam_file_lines:
 				read_tmp_str = sam_file_line[0][3:]
-				print(read_tmp_str)
+				print(all_substrings[read_tmp_str])
 				if sam_file_line[0] in repeat_of_interest_in_read:
 					tmp = repeat_of_interest_in_read.get(sam_file_line[0]) + 1
 					repeat_of_interest_in_read.update({sam_file_line[0]: tmp})
