@@ -113,6 +113,8 @@ for line in indel_fh:
 				sam_file_lines.append(line.rstrip().split()[0:11])
 
 			for sam_file_line in sam_file_lines:
+    			read_sub_seq = sam_file_line[0][6:11]
+				print(read_sub_seq)
 				if sam_file_line[0] in repeat_of_interest_in_read:
 					tmp = repeat_of_interest_in_read.get(sam_file_line[0]) + 1
 					repeat_of_interest_in_read.update({sam_file_line[0]: tmp})
@@ -144,8 +146,8 @@ for line in indel_fh:
 			os.remove(f"reads/temporary_reads_{alignment.query_name}.fa")
 			os.remove(f"blast_out/align_{alignment.query_name}.out")
 			#os.remove(f"sam_out/align_{alignment.query_name}.sam")
-			#break
-		#break
+			break
+		break
 
 	max_entry_key = max(repeat_of_interest, key= lambda x: repeat_of_interest[x])
 
