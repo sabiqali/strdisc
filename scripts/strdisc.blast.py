@@ -133,6 +133,12 @@ for line in indel_fh:
 			print("processed read ", read_count)
 			read_count = read_count + 1
 
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa")
+			os.remove(f"reads/temporary_reads_{alignment.query_name}.fa")
+			os.remove(f"blast_out/align_{alignment.query_name}.out")
+			os.remove(f"sam_out/align_{alignment.query_name}.sam")
+
+
 	max_entry_key = max(repeat_of_interest, key= lambda x: repeat_of_interest[x])
 
 	print(max_entry_key, repeat_of_interest[max_entry_key])			
