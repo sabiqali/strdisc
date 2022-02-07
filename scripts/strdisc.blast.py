@@ -134,12 +134,18 @@ for line in indel_fh:
 			read_count = read_count + 1
 
 			os.remove(f"references/temporary_ref_{alignment.query_name}.fa")
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa.ndb")
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa.nhr")
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa.nin")
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa.not")
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa.nsq")
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa.ntf")
+			os.remove(f"references/temporary_ref_{alignment.query_name}.fa.nto")
 			os.remove(f"reads/temporary_reads_{alignment.query_name}.fa")
 			os.remove(f"blast_out/align_{alignment.query_name}.out")
-			os.remove(f"sam_out/align_{alignment.query_name}.sam")
-			break
-		break
-	break
+			#os.remove(f"sam_out/align_{alignment.query_name}.sam")
+			#break
+		#break
 
 	max_entry_key = max(repeat_of_interest, key= lambda x: repeat_of_interest[x])
 
