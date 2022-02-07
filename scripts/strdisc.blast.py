@@ -113,8 +113,8 @@ for line in indel_fh:
 				sam_file_lines.append(line.rstrip().split()[0:11])
 
 			for sam_file_line in sam_file_lines:
-    			read_sub_seq = sam_file_line[0][6:11]
-				print(read_sub_seq)
+				read_tmp_str = sam_file_line[0][3:]
+				print(read_tmp_str)
 				if sam_file_line[0] in repeat_of_interest_in_read:
 					tmp = repeat_of_interest_in_read.get(sam_file_line[0]) + 1
 					repeat_of_interest_in_read.update({sam_file_line[0]: tmp})
