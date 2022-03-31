@@ -108,6 +108,9 @@ for line in indel_fh:
 	max_repeat_substring = ""
 	max_repeat_count = 0
 	read_count = 1
+	repeat_of_interest_reverse = dict()  #variable to hold the highest repeating substring, which could potentially be the repeating unit of the STR.
+	max_repeat_substring_reverse = ""
+	max_repeat_count_reverse = 0
 
 	if int(support) >= 2: #if 2 out of the 3 callers call the insertion 
 		region_start = int(start) - 500
@@ -116,7 +119,7 @@ for line in indel_fh:
 		#get the alignment of the reads and get only those reads that match the called indel region denoted by region_start and region_end
 		for alignment in bamfile.fetch(chromosome,region_start,region_end):
 			pair_out = alignment.get_aligned_pairs(True)
-	
+			strand = '+' if alignment.is_forward else '-'
 			#get the coordinates on the read that coincide with the coordinates on the reference
 			for tmp_pairs in  pair_out:
 				if abs(tmp_pairs[1] - region_start) <= 10:
@@ -135,24 +138,44 @@ for line in indel_fh:
 			all_substrings = find_all_substrings(test_seq)
 			print("processing read", read_count)
 
-			for i in range(len(all_substrings)):
-				counter = 0
-				for j in range(len(all_substrings)):
-					if len(all_substrings[i]) == len(all_substrings[j]):
-						ed = calc_ed(all_substrings[i],all_substrings[j])
-						if ed/len(all_substrings[i]) <= 0.10:
-							counter = counter + 1
-						if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
-							if all_substrings[i] in repeat_of_interest:
-								if repeat_of_interest[all_substrings[i]] < counter:
-									repeat_of_interest.update({all_substrings[i]: counter})
-							else:
-								repeat_of_interest[all_substrings[i]] = counter
-							max_repeat_count = counter  #we store the global maxima
-							max_repeat_substring = all_substrings[i]
-							#print(max_repeat_substring, max_repeat_count)
-					else:
-						continue
+			if strand == '+':
+				for i in range(len(all_substrings)):
+					counter = 0
+					for j in range(len(all_substrings)):
+						if len(all_substrings[i]) == len(all_substrings[j]):
+							ed = calc_ed(all_substrings[i],all_substrings[j])
+							if ed/len(all_substrings[i]) <= 0.10:
+								counter = counter + 1
+							if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+								if all_substrings[i] in repeat_of_interest:
+									if repeat_of_interest[all_substrings[i]] < counter:
+										repeat_of_interest.update({all_substrings[i]: counter})
+								else:
+									repeat_of_interest[all_substrings[i]] = counter
+								max_repeat_count = counter  #we store the global maxima
+								max_repeat_substring = all_substrings[i]
+								#print(max_repeat_substring, max_repeat_count)
+						else:
+							continue
+			else:
+				for i in range(len(all_substrings)):
+					counter = 0
+					for j in range(len(all_substrings)):
+						if len(all_substrings[i]) == len(all_substrings[j]):
+							ed = calc_ed(all_substrings[i],all_substrings[j])
+							if ed/len(all_substrings[i]) <= 0.10:
+								counter = counter + 1
+							if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+								if all_substrings[i] in repeat_of_interest_reverse:
+									if repeat_of_interest_reverse[all_substrings[i]] < counter:
+										repeat_of_interest_reverse.update({all_substrings[i]: counter})
+								else:
+									repeat_of_interest_reverse[all_substrings[i]] = counter
+								max_repeat_count_reverse = counter  #we store the global maxima
+								max_repeat_substring_reverse = all_substrings[i]
+								#print(max_repeat_substring, max_repeat_count)
+						else:
+							continue
 			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
 			#for x in range(len(all_substrings)):
 				#print("test")
@@ -183,3 +206,7 @@ for line in indel_fh:
 	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
 		if(repeat_of_interest[key] == max_repeat_count):
 			print(key, repeat_of_interest[key])
+	
+	for key in repeat_of_interest_reverse:  #we print only the elements of the dictonary which are equal to the global maxima
+		if(repeat_of_interest_reverse[key] == max_repeat_count):
+			print(key, repeat_of_interest_reverse[key])
