@@ -208,5 +208,5 @@ for line in indel_fh:
 			print(key, repeat_of_interest[key])
 	
 	for key in repeat_of_interest_reverse:  #we print only the elements of the dictonary which are equal to the global maxima
-		if(repeat_of_interest_reverse[key] == max_repeat_count):
+		if(repeat_of_interest_reverse[key] == max_repeat_count_reverse):
 			print(key, repeat_of_interest_reverse[key])
