@@ -146,8 +146,8 @@ for line in indel_fh:
 			os.remove(f"reads/temporary_reads_{alignment.query_name}.fa")
 			os.remove(f"blast_out/align_{alignment.query_name}.out")
 			#os.remove(f"sam_out/align_{alignment.query_name}.sam")
-			break
-		break
+			#break
+		#break
 
 	max_entry_key = max(repeat_of_interest, key= lambda x: repeat_of_interest[x])
 
