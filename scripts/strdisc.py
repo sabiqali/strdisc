@@ -17,6 +17,14 @@ def hamming_distance(str1, str2):
     else:
         return sum(1 for (a, b) in zip(str1, str2) if a != b)
 
+def allCharactersSame(s) :
+    n = len(s)
+    for i in range(1, n) :
+        if s[i] != s[0] :
+            return False
+ 
+    return True
+
 def KMPSearch(pat, txt):
 	M = len(pat)
 	N = len(txt)
@@ -241,7 +249,15 @@ for line in indel_fh:
 
 	fw_max_key = sorted(repeat_of_interest, key=repeat_of_interest.get, reverse=True)[:3]
 	rw_max_key = sorted(repeat_of_interest_reverse, key=repeat_of_interest_reverse.get, reverse=True)[:3]
+	fw_output = ""
+	rw_output = ""
+	for key in fw_max_key:
+		if not allCharactersSame(repeat_of_interest[key]):
+			fw_output = fw_output + key + " " + repeat_of_interest[key] + " "
+	for key in rw_max_key:
+		if not allCharactersSame(repeat_of_interest_reverse[key]):
+			rw_output = rw_output + key + " " + repeat_of_interest_reverse[key] + " "
 	print("Forward strand max:")
-	print(fw_max_key[0], repeat_of_interest[fw_max_key[0]], fw_max_key[1], repeat_of_interest[fw_max_key[1]], fw_max_key[2], repeat_of_interest[fw_max_key[2]])
+	print(fw_output)
 	print("Reverse strand max:")
-	print(rw_max_key[0], repeat_of_interest_reverse[rw_max_key[0]], rw_max_key[1], repeat_of_interest_reverse[rw_max_key[1]], rw_max_key[2], repeat_of_interest_reverse[rw_max_key[2]])
+	print(rw_output)
