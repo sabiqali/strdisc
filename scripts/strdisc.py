@@ -228,11 +228,20 @@ for line in indel_fh:
 			read_count = read_count + 1
 			print(repeat_of_interest)
 			print(max_repeat_count)
+			print(repeat_of_interest_reverse)
+			print(max_repeat_count_reverse)
 
-	for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
-		if(repeat_of_interest[key] == max_repeat_count):
-			print(key, repeat_of_interest[key])
+	#for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
+	#	if(repeat_of_interest[key] == max_repeat_count):
+	#		print(key, repeat_of_interest[key])
 	
-	for key in repeat_of_interest_reverse:  #we print only the elements of the dictonary which are equal to the global maxima
-		if(repeat_of_interest_reverse[key] == max_repeat_count_reverse):
-			print(key, repeat_of_interest_reverse[key])
+	#for key in repeat_of_interest_reverse:  #we print only the elements of the dictonary which are equal to the global maxima
+	#	if(repeat_of_interest_reverse[key] == max_repeat_count_reverse):
+	#		print(key, repeat_of_interest_reverse[key])
+
+	fw_max_key = sorted(repeat_of_interest, key=repeat_of_interest.get, reverse=True)[:3]
+	rw_max_key = sorted(repeat_of_interest_reverse, key=repeat_of_interest_reverse.get, reverse=True)[:3]
+	print("Forward strand max:")
+	print(fw_max_key[0], repeat_of_interest[fw_max_key[0]], fw_max_key[1], repeat_of_interest[fw_max_key[1]], fw_max_key[2], repeat_of_interest[fw_max_key[2]])
+	print("Reverse strand max:")
+	print(rw_max_key[0], repeat_of_interest_reverse[rw_max_key[0]], rw_max_key[1], repeat_of_interest_reverse[rw_max_key[1]], rw_max_key[2], repeat_of_interest_reverse[rw_max_key[2]])
