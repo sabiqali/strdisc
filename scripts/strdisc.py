@@ -119,7 +119,7 @@ for line in indel_fh:
 		#get the alignment of the reads and get only those reads that match the called indel region denoted by region_start and region_end
 		for alignment in bamfile.fetch(chromosome,region_start,region_end):
 			pair_out = alignment.get_aligned_pairs(True)
-			strand = '+' if alignment.is_forward else '-'
+			strand = '-' if alignment.is_reverse else '+'
 			#get the coordinates on the read that coincide with the coordinates on the reference
 			for tmp_pairs in  pair_out:
 				if abs(tmp_pairs[1] - region_start) <= 10:
@@ -208,5 +208,5 @@ for line in indel_fh:
 			print(key, repeat_of_interest[key])
 	
 	for key in repeat_of_interest_reverse:  #we print only the elements of the dictonary which are equal to the global maxima
-		if(repeat_of_interest_reverse[key] == max_repeat_count):
+		if(repeat_of_interest_reverse[key] == max_repeat_count_reverse):
 			print(key, repeat_of_interest_reverse[key])
