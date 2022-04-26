@@ -11,6 +11,12 @@ def find_all_substrings(region):
 	res = [region[x:y] for x, y in combinations(range(len(region) + 1), r = 2) if len(region[x:y]) >= K and len(region[x:y]) <= upper_length ]
 	return res
 
+def hamming_distance(str1, str2):
+    if len(str1) != len(str2):
+        raise ValueError("Strand lengths are not equal!")
+    else:
+        return sum(1 for (a, b) in zip(str1, str2) if a != b)
+
 def KMPSearch(pat, txt):
 	M = len(pat)
 	N = len(txt)
@@ -137,14 +143,55 @@ for line in indel_fh:
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
 			print("processing read", read_count)
+			
+			#Using Edlib to compare the strings and calculate their edit distance to get the similarity between the substrings. 
+			#if strand == '+':
+			#	for i in range(len(all_substrings)):
+			#		counter = 0
+			#		for j in range(len(all_substrings)):
+			#			if len(all_substrings[i]) == len(all_substrings[j]):
+			#				ed = calc_ed(all_substrings[i],all_substrings[j])
+			#				if ed/len(all_substrings[i]) <= 0.10:
+			#					counter = counter + 1
+			#				if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+			#					if all_substrings[i] in repeat_of_interest:
+			#						if repeat_of_interest[all_substrings[i]] < counter:
+			#							repeat_of_interest.update({all_substrings[i]: counter})
+			#					else:
+			#						repeat_of_interest[all_substrings[i]] = counter
+			#					max_repeat_count = counter  #we store the global maxima
+			#					max_repeat_substring = all_substrings[i]
+			#					#print(max_repeat_substring, max_repeat_count)
+			#			else:
+			#				continue
+			#else:
+			#	for i in range(len(all_substrings)):
+			#		counter = 0
+			#		for j in range(len(all_substrings)):
+			#			if len(all_substrings[i]) == len(all_substrings[j]):
+			#				ed = calc_ed(all_substrings[i],all_substrings[j])
+			#				if ed/len(all_substrings[i]) <= 0.10:
+			#					counter = counter + 1
+			#				if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
+			#					if all_substrings[i] in repeat_of_interest_reverse:
+			#						if repeat_of_interest_reverse[all_substrings[i]] < counter:
+			#							repeat_of_interest_reverse.update({all_substrings[i]: counter})
+			#					else:
+			#						repeat_of_interest_reverse[all_substrings[i]] = counter
+			#					max_repeat_count_reverse = counter  #we store the global maxima
+			#					max_repeat_substring_reverse = all_substrings[i]
+			#					#print(max_repeat_substring, max_repeat_count)
+			#			else:
+			#				continue
 
+			#Using Hamming Distance to figure out the similarity between the substrings
 			if strand == '+':
 				for i in range(len(all_substrings)):
 					counter = 0
 					for j in range(len(all_substrings)):
 						if len(all_substrings[i]) == len(all_substrings[j]):
-							ed = calc_ed(all_substrings[i],all_substrings[j])
-							if ed/len(all_substrings[i]) <= 0.10:
+							hd = hamming_distance(all_substrings[i],all_substrings[j])
+							if hd <= 1:
 								counter = counter + 1
 							if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 								if all_substrings[i] in repeat_of_interest:
@@ -162,8 +209,8 @@ for line in indel_fh:
 					counter = 0
 					for j in range(len(all_substrings)):
 						if len(all_substrings[i]) == len(all_substrings[j]):
-							ed = calc_ed(all_substrings[i],all_substrings[j])
-							if ed/len(all_substrings[i]) <= 0.10:
+							hd = hamming_distance(all_substrings[i],all_substrings[j])
+							if hd <= 1:
 								counter = counter + 1
 							if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
 								if all_substrings[i] in repeat_of_interest_reverse:
@@ -176,28 +223,7 @@ for line in indel_fh:
 								#print(max_repeat_substring, max_repeat_count)
 						else:
 							continue
-			#go through all the substrings of the subsequence and then check if that is a repeated substring or not, if it is document it in the repeat_of_interest dictonary(can be done using KMP for exact matches and parasail for approximate matches)
-			#for x in range(len(all_substrings)):
-				#print("test")
-			#	counter = 1
-			#	indices = KMPSearch(all_substrings[x],test_text)  #generate a list of indeces where the substring has been found
-			#	diffs = [j-i for i, j in zip(indices[:-1], indices[1:])]  #generate a list of differences between the elements of the indeces list. 
 
-				#for diff in diffs:  #if the difference between the elements of the indeces list is equal to the length of the substring, it is a repeat, we count it.
-				#	if abs(diff-len(all_substrings[x])) <= (3*len(all_substrings[x])):
-				#		counter = counter + 1
-			#	if len(diffs) > 3:
-			#		counter = counter + 1
-			#	if counter >= max_repeat_count:  #if local maxima is greater than global maxima and greater than the threshold, we write it to the repeat of interest. 
-			#		if all_substrings[x] in repeat_of_interest:
-			#			if repeat_of_interest[all_substrings[x]] < counter:
-			#				repeat_of_interest.update({all_substrings[x]: counter})
-			#		else:
-			#			repeat_of_interest[all_substrings[x]] = counter
-			#		max_repeat_count = counter  #we store the global maxima
-			#		max_repeat_substring = all_substrings[x]
-					#print(max_repeat_substring, max_repeat_count)
-			#break
 			print("processed read ", read_count)
 			read_count = read_count + 1
 			print(repeat_of_interest)
