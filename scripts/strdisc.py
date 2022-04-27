@@ -156,7 +156,7 @@ for line in indel_fh:
 			#get all the substrings of the subsequence
 			#print(test_seq)
 			all_substrings = find_all_substrings(test_seq)
-			print("processing read", read_count)
+			#print("processing read", read_count)
 			
 			#Using Edlib to compare the strings and calculate their edit distance to get the similarity between the substrings. 
 			#if strand == '+':
@@ -238,12 +238,12 @@ for line in indel_fh:
 						else:
 							continue
 
-			print("processed read ", read_count)
+			#print("processed read ", read_count)
 			read_count = read_count + 1
-			print(repeat_of_interest)
-			print(max_repeat_count)
-			print(repeat_of_interest_reverse)
-			print(max_repeat_count_reverse)
+			#print(repeat_of_interest)
+			#print(max_repeat_count)
+			#print(repeat_of_interest_reverse)
+			#print(max_repeat_count_reverse)
 
 	#for key in repeat_of_interest:  #we print only the elements of the dictonary which are equal to the global maxima
 	#	if(repeat_of_interest[key] == max_repeat_count):
