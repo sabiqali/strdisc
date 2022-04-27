@@ -260,11 +260,11 @@ for line in indel_fh:
 	for key in fw_max_key:
 		if not allCharactersSame(key):
 			#fw_output = fw_output + key + " " + str(repeat_of_interest[key]) + " "
-			print("\t".join(chromosome, start, end, key))
+			print("\t".join([chromosome, start, end, key]))
 	for key in rw_max_key:
 		if not allCharactersSame(key):
 			#rw_output = rw_output + key + " " + str(repeat_of_interest_reverse[key]) + " "
-			print("\t".join(chromosome, start, end, reverse_complement(key)))
+			print("\t".join([chromosome, start, end, reverse_complement(key)]))
 	#print("Forward strand max:")
 	#print(fw_output)
 	#print("Reverse strand max:")
