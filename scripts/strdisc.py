@@ -8,7 +8,7 @@ import itertools
 def find_all_substrings(region):
 	# Extract K length substrings
 	# Using itertools.combinations()
-	res = [region[x:y] for x, y in combinations(range(len(region) + 1), r = 2) if len(region[x:y]) >= K and len(region[x:y]) <= upper_length ]
+	res = [region[x:y] for x, y in combinations(range(len(region) + 1), r = 2) if len(region[x:y]) >= K and len(region[x:y]) <= int(upper_length) ]
 	return res
 
 def hamming_distance(str1, str2):
@@ -252,11 +252,11 @@ for line in indel_fh:
 	fw_output = ""
 	rw_output = ""
 	for key in fw_max_key:
-		if not allCharactersSame(repeat_of_interest[key]):
-			fw_output = fw_output + key + " " + repeat_of_interest[key] + " "
+		if not allCharactersSame(key):
+			fw_output = fw_output + key + " " + str(repeat_of_interest[key]) + " "
 	for key in rw_max_key:
-		if not allCharactersSame(repeat_of_interest_reverse[key]):
-			rw_output = rw_output + key + " " + repeat_of_interest_reverse[key] + " "
+		if not allCharactersSame(key):
+			rw_output = rw_output + key + " " + str(repeat_of_interest_reverse[key]) + " "
 	print("Forward strand max:")
 	print(fw_output)
 	print("Reverse strand max:")
