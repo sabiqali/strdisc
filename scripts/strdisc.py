@@ -1,5 +1,6 @@
 import argparse
 from itertools import combinations, count
+from turtle import st
 import pysam
 import edlib
 import math
@@ -24,6 +25,11 @@ def allCharactersSame(s) :
             return False
  
     return True
+
+def reverse_complement(seq):  
+	complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+	rev = "".join(complement.get(base, base) for base in reversed(seq))
+	return rev
 
 def KMPSearch(pat, txt):
 	M = len(pat)
@@ -249,15 +255,18 @@ for line in indel_fh:
 
 	fw_max_key = sorted(repeat_of_interest, key=repeat_of_interest.get, reverse=True)[:3]
 	rw_max_key = sorted(repeat_of_interest_reverse, key=repeat_of_interest_reverse.get, reverse=True)[:3]
-	fw_output = ""
-	rw_output = ""
+	#fw_output = ""
+	#rw_output = ""
 	for key in fw_max_key:
 		if not allCharactersSame(key):
-			fw_output = fw_output + key + " " + str(repeat_of_interest[key]) + " "
+			#fw_output = fw_output + key + " " + str(repeat_of_interest[key]) + " "
+			print("\t".join(chromosome, start, end, key))
 	for key in rw_max_key:
 		if not allCharactersSame(key):
-			rw_output = rw_output + key + " " + str(repeat_of_interest_reverse[key]) + " "
-	print("Forward strand max:")
-	print(fw_output)
-	print("Reverse strand max:")
-	print(rw_output)
+			#rw_output = rw_output + key + " " + str(repeat_of_interest_reverse[key]) + " "
+			print("\t".join(chromosome, start, end, reverse_complement(key)))
+	#print("Forward strand max:")
+	#print(fw_output)
+	#print("Reverse strand max:")
+	#print(rw_output)
+	#print("%s\t%s\t%s\t%s"%(chromosome, start, end, ))
