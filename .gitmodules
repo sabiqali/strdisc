@@ -1,0 +1,4 @@
+[submodule "nanopore-SV-analysis"]
+	path = nanopore-SV-analysis
+	url = https://github.com/mike-molnar/nanopore-SV-analysis.git
+	branch = main
