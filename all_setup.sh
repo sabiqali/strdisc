@@ -6,5 +6,5 @@ conda env create -n strdisc -f strdisc.yml
 conda activate strdisc
 
 #get references needed by SV analysis pipeline
-chmod u+x ./nanopore-SV-analysis/reference/download_reference.sh
-./nanopore-SV-analysis/reference/download_reference.sh
+chmod u+x ./download_reference.sh
+./download_reference.sh
