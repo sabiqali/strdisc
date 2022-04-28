@@ -113,7 +113,7 @@ in_bam = args.bam
 bamfile = pysam.AlignmentFile(in_bam)
 
 if output_file:
-	output_file_fd = open(output_file, "w")
+	output_file_fd = open(output_file, "a+")
 
 # initializing K 
 K = int(lower_length)
