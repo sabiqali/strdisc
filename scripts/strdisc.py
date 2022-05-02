@@ -97,7 +97,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--lower_length', help='the minimum length of STRs to check', required=False, default=3)
 parser.add_argument('--upper_length', help='the minimum length of STRs to check', required=False, default=6)
 parser.add_argument('--indel_file', help='the file generated from the SV detection pipeline', required=False)
-parser.add_argument('--count', help='the minimum number of repeets to consider the region viable', required=False, default=3)
+parser.add_argument('--count', help='the minimum number of repeets to consider the region viable', required=False, default=100)
 parser.add_argument('--bed', help='the output bed file for the coordinates of the potential STRs', required=False)
 parser.add_argument('--bam', help='the bam file', required=False)
 
@@ -109,6 +109,8 @@ indel_file = args.indel_file
 no_of_repeats = args.count
 output_file = args.bed
 in_bam = args.bam
+
+min_length = int(no_of_repeats)*int(lower_length)
 
 bamfile = pysam.AlignmentFile(in_bam)
 
@@ -135,7 +137,7 @@ for line in indel_fh:
 	max_repeat_substring_reverse = ""
 	max_repeat_count_reverse = 0
 
-	if int(support) >= 2: #if 2 out of the 3 callers call the insertion 
+	if int(support) >= 2 and int(sv_length) >= min_length: #if 2 out of the 3 callers call the insertion 
 		region_start = int(start) - 500
 		region_end = int(end) + 500
 
