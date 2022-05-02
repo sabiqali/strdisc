@@ -125,6 +125,8 @@ test_text = "bacbacbacabcabcabcabcabcabc"
 indel_fh = open(indel_file)
 #header = indel_fh.readline()           activate this when Mike adds a header to the indel_file
 
+line_count = 1
+
 for line in indel_fh:
 	chromosome,start,end,type_of,sv_length,sv_tmp,support = line.rstrip().split()[0:7]  #read the indel file and get data from the different columns. 
 	#print(chromosome,start,end,type_of,sv_length,sv_tmp,support)
@@ -137,6 +139,7 @@ for line in indel_fh:
 	repeat_of_interest_reverse = dict()  #variable to hold the highest repeating substring, which could potentially be the repeating unit of the STR.
 	max_repeat_substring_reverse = ""
 	max_repeat_count_reverse = 0
+	print("processing indel file line", line_count)
 
 	if int(support) >= 2 and int(float(sv_length)) >= min_length: #if 2 out of the 3 callers call the insertion 
 		region_start = int(start) - 500
@@ -286,3 +289,5 @@ for line in indel_fh:
 	#print("Reverse strand max:")
 	#print(rw_output)
 	#print("%s\t%s\t%s\t%s"%(chromosome, start, end, ))
+	print("processed indel file line", line_count)
+	line_count = line_count + 1
