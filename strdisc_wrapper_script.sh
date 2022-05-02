@@ -9,9 +9,11 @@ output_dir="path/to/output/dir" #output directory where you want to store SV pip
 sample_names="sample_name" #enter same sample name here as the config for the SV calling pipeline
 
 #required parameters
-indel_file_locations="path/to/bed/file"
 bam_file_location="path/to/bam/file"
 output_bed_file="output/bed/file/name"
+
+#indel file locations
+indel_file_locations="$output_dir/$sample_names/structural_variants/$sample_names.insertions.bed $output_dir/$sample_names/structural_variants/$sample_names.duplications.bed"
 
 #strdisc python from conda directory
 strdisc_python="$strdisc_conda_dir/python"
@@ -38,5 +40,6 @@ snakemake --jobs 500 --rerun-incomplete -s $snakefile_loc --keep-going --latency
 
 #use the bed file generated with strdisc to generate bed file with up to top 3 candidates from each strand
 for indel_file_location in $indel_file_locations; do
-    $strdisc_python $strdisc_exec --indel_file $indel_file_location --bam $bam_file_location --bed $output_bed_file $extra_options 
+    qsub -cwd -V -N strdisc -l h_vmem=32G -l h_stack=32M -l h_rt=5:0:0:0 -P simpsonlab -b y "$strdisc_python $strdisc_exec --indel_file $indel_file_location --bam $bam_file_location --bed $output_bed_file $extra_options"
+    wait 
 done
