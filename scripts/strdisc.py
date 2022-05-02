@@ -127,6 +127,7 @@ indel_fh = open(indel_file)
 
 for line in indel_fh:
 	chromosome,start,end,type_of,sv_length,sv_tmp,support = line.rstrip().split()[0:7]  #read the indel file and get data from the different columns. 
+	#print(chromosome,start,end,type_of,sv_length,sv_tmp,support)
 	region_start = start
 	region_end = end
 	repeat_of_interest = dict()  #variable to hold the highest repeating substring, which could potentially be the repeating unit of the STR.
@@ -137,7 +138,7 @@ for line in indel_fh:
 	max_repeat_substring_reverse = ""
 	max_repeat_count_reverse = 0
 
-	if int(support) >= 2 and int(sv_length) >= min_length: #if 2 out of the 3 callers call the insertion 
+	if int(support) >= 2 and int(float(sv_length)) >= min_length: #if 2 out of the 3 callers call the insertion 
 		region_start = int(start) - 500
 		region_end = int(end) + 500
 
@@ -153,7 +154,7 @@ for line in indel_fh:
 					region_read_end = tmp_pairs[0]
 
 			#get the sequence from the alignment and then get the subsequence
-			if region_read_start < region_read_end:
+			if region_read_start < region_read_end and alignment.query_sequence:
 				test_seq = alignment.query_sequence[region_read_start:region_read_end]
 			else:
 				continue
