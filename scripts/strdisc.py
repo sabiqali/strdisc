@@ -97,6 +97,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--lower_length', help='the minimum length of STRs to check', required=False, default=3)
 parser.add_argument('--upper_length', help='the minimum length of STRs to check', required=False, default=6)
 parser.add_argument('--indel_file', help='the file generated from the SV detection pipeline', required=False)
+parser.add_argument('--support_sensitivity', help='the numbers of calls necessary by SV callers to consider SV as potential STR expansion', required=False, default=2)
 parser.add_argument('--count', help='the minimum number of repeets to consider the region viable', required=False, default=100)
 parser.add_argument('--bed', help='the output bed file for the coordinates of the potential STRs', required=False)
 parser.add_argument('--bam', help='the bam file', required=False)
@@ -109,6 +110,7 @@ indel_file = args.indel_file
 no_of_repeats = args.count
 output_file = args.bed
 in_bam = args.bam
+support_sensitive = args.support_sensitivity
 
 min_length = int(no_of_repeats)*int(lower_length)
 
@@ -141,7 +143,7 @@ for line in indel_fh:
 	max_repeat_count_reverse = 0
 	print("processing indel file line", line_count)
 
-	if int(support) >= 2 and int(float(sv_length)) >= min_length: #if 2 out of the 3 callers call the insertion 
+	if int(support) >= support_sensitive and int(float(sv_length)) >= min_length: #if 2 out of the 3 callers call the insertion 
 		region_start = int(start) - 500
 		region_end = int(end) + 500
 
