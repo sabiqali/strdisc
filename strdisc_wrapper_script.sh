@@ -33,7 +33,7 @@ for sample_name in $sample_names; do
 done
 
 #optional parameters
-extra_options="--upper_length 3" #please refer to strdisc help menu for extra options
+extra_options="--lower_length 3 --upper_length 6 --support_sensitivity 1" #please refer to strdisc help menu for extra options
 
 #using the SV analysis pipeline to generate the required bed files. 
 snakemake --jobs 500 --rerun-incomplete -s $snakefile_loc --keep-going --latency-wait 120 --cluster "qsub -cwd -V -o snakemake.output.log -e snakemake.error.log -q all.q -P simpsonlab -pe smp {threads} -l h_vmem={params.memory_per_thread} -l h_rt={params.run_time} -b y"
