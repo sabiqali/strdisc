@@ -274,18 +274,18 @@ for line in indel_fh:
 		if not allCharactersSame(key):
 			#fw_output = fw_output + key + " " + str(repeat_of_interest[key]) + " "
 			if output_file:
-				print("\t".join([chromosome, start, end, key, repeat_of_interest[key]]), file=output_file_fd)
+				print("\t".join([chromosome, start, end, key, str(repeat_of_interest[key])]), file=output_file_fd)
 				print("Finished processing")
 			else:
-				print("\t".join([chromosome, start, end, key, repeat_of_interest[key]]))
+				print("\t".join([chromosome, start, end, key, str(repeat_of_interest[key])]))
 	for key in rw_max_key:
 		if not allCharactersSame(key):
 			#rw_output = rw_output + key + " " + str(repeat_of_interest_reverse[key]) + " "
 			if output_file:
-				print("\t".join([chromosome, start, end, reverse_complement(key), repeat_of_interest_reverse[key]]), file=output_file_fd)
+				print("\t".join([chromosome, start, end, reverse_complement(key), str(repeat_of_interest_reverse[key])]), file=output_file_fd)
 				print("Finished processing")
 			else:
-				print("\t".join([chromosome, start, end, reverse_complement(key), repeat_of_interest_reverse[key]]))
+				print("\t".join([chromosome, start, end, reverse_complement(key), str(repeat_of_interest_reverse[key])]))
 	#print("Forward strand max:")
 	#print(fw_output)
 	#print("Reverse strand max:")
