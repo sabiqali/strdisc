@@ -110,7 +110,7 @@ indel_file = args.indel_file
 no_of_repeats = args.count
 output_file = args.bed
 in_bam = args.bam
-support_sensitive = args.support_sensitivity
+support_sensitive = int(args.support_sensitivity)
 
 min_length = int(no_of_repeats)*int(lower_length)
 
